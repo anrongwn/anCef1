@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "anBrowersApp.h"
 #include "include/cef_app.h"
+#include "anCefApp.h"
 
 
 #ifdef DEBUG
@@ -36,7 +37,44 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 在此处放置代码。
+	// Enable High-DPI support on Windows 7 or newer.
+	CefEnableHighDPISupport();
 
+	void* sandbox_info = NULL;
+
+	// Provide CEF with command-line arguments.
+	CefMainArgs main_args(hInstance);
+
+	// CEF applications have multiple sub-processes (render, plugin, GPU, etc)
+	// that share the same executable. This function checks the command-line and,
+	// if this is a sub-process, executes the appropriate logic.
+	int exit_code = CefExecuteProcess(main_args, NULL, sandbox_info);
+	if (exit_code >= 0) {
+		// The sub-process has completed so return here.
+		return exit_code;
+	}
+
+	// Specify CEF global settings here.
+	CefSettings settings;
+
+	// SimpleApp implements application-level callbacks for the browser process.
+  // It will create the first browser instance in OnContextInitialized() after
+  // CEF has initialized.
+	CefRefPtr<anCefApp> app(new anCefApp);
+
+	// Initialize CEF.
+	CefInitialize(main_args, settings, app.get(), sandbox_info);
+
+	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
+	// called.
+	CefRunMessageLoop();
+
+	// Shut down CEF.
+	CefShutdown();
+
+	return 0;
+
+	/*
     // 初始化全局字符串
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_ANBROWERSAPP, szWindowClass, MAX_LOADSTRING);
@@ -63,6 +101,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     return (int) msg.wParam;
+	*/
 }
 
 

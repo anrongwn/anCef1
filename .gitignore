@@ -332,3 +332,4 @@ ASALocalRun/
 #cef 
 cef_binary_74.1.19/
 *.filters
+/anBrowersApp/GPUCache

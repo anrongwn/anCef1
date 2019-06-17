@@ -7,7 +7,8 @@ class anCefClient :
 	public CefDisplayHandler,
 	public CefLifeSpanHandler,
 	public CefLoadHandler,
-	public CefKeyboardHandler
+	public CefKeyboardHandler,
+	public CefContextMenuHandler
 {
 public:
 	explicit anCefClient(bool use_views);
@@ -16,6 +17,9 @@ public:
 	// Provide access to the single global instance of this object.
 	static anCefClient* GetInstance();
 
+	virtual CefRefPtr<CefContextMenuHandler> GetContextMenuHandler() override {
+		return this;
+	}
 	// CefClient methods:
 	virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() override {
 		return this;
@@ -28,6 +32,11 @@ public:
 	virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() override {
 		return this;
 	}
+	virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser,
+		CefRefPtr<CefFrame> frame,
+		CefRefPtr<CefContextMenuParams> params,
+		CefRefPtr<CefMenuModel> model) override;
+
 	// CefDisplayHandler methods:
 	virtual void OnTitleChange(CefRefPtr<CefBrowser> browser,
 		const CefString& title) override;

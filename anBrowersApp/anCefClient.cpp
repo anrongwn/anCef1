@@ -30,6 +30,17 @@ anCefClient * anCefClient::GetInstance() {
 	return g_instance;
 }
 
+void anCefClient::OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model)
+{
+	//Çå³ýÓÒ»÷²Ëµ¥
+	if ((params->GetTypeFlags() & (CM_TYPEFLAG_PAGE | CM_TYPEFLAG_FRAME)) != 0) {
+		if (model->GetCount() > 0)
+		{
+			model->Clear();
+		}
+	}
+}
+
 void anCefClient::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString & title)
 {
 	CEF_REQUIRE_UI_THREAD();

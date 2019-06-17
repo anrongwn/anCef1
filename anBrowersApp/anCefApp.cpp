@@ -90,7 +90,11 @@ void anCefApp::OnContextInitialized()
 	// that instead of the default URL.
 	url = command_line->GetSwitchValue("url");
 	if (url.empty())
-		url = "http://www.baidu.com";
+	{
+		//url = "http://www.baidu.com";
+		url = R"(file:///D:\MyTest\2019_C++\anCef1\anBrowersApp\html/index.html)";
+	}
+		
 
 	if (use_views) {
 		// Create the BrowserView.
@@ -103,11 +107,13 @@ void anCefApp::OnContextInitialized()
 	else {
 		// Information used when creating the native window.
 		CefWindowInfo window_info;
+		
 
 #if defined(OS_WIN)
 		// On Windows we need to specify certain flags that will be passed to
 		// CreateWindowEx().
 		window_info.SetAsPopup(NULL, "anBrowersApp");
+		
 #endif
 
 		// Create the first browser window.

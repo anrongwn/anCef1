@@ -52,6 +52,17 @@ void anCefClient::OnTitleChange(CefRefPtr<CefBrowser> browser, const CefString &
 
 }
 
+void anCefClient::OnFullscreenModeChange(CefRefPtr<CefBrowser> browser, bool fullscreen)
+{
+	CefWindowHandle hwnd = browser->GetHost()->GetWindowHandle();
+	if (fullscreen) {
+
+	}
+	else {
+
+	}
+}
+
 void anCefClient::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
 	CEF_REQUIRE_UI_THREAD();
@@ -118,6 +129,20 @@ void anCefClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>
 
 void anCefClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
 {
+	int r = httpStatusCode;
+
+	frame->ExecuteJavaScript("alert('ExecuteJavaScript works!');",
+		frame->GetURL(), 0);
+}
+
+bool anCefClient::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent & event, CefEventHandle os_event, bool * is_keyboard_shortcut)
+{
+	return false;
+}
+
+bool anCefClient::OnKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent & event, CefEventHandle os_event)
+{
+	return false;
 }
 
 void anCefClient::CloseAllBrowsers(bool force_close)

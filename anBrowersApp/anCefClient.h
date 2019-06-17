@@ -6,7 +6,8 @@ class anCefClient :
 	public CefClient,
 	public CefDisplayHandler,
 	public CefLifeSpanHandler,
-	public CefLoadHandler
+	public CefLoadHandler,
+	public CefKeyboardHandler
 {
 public:
 	explicit anCefClient(bool use_views);
@@ -24,9 +25,15 @@ public:
 	}
 	virtual CefRefPtr<CefLoadHandler> GetLoadHandler() override { return this; }
 
+	virtual CefRefPtr<CefKeyboardHandler> GetKeyboardHandler() override {
+		return this;
+	}
 	// CefDisplayHandler methods:
 	virtual void OnTitleChange(CefRefPtr<CefBrowser> browser,
 		const CefString& title) override;
+
+	virtual void OnFullscreenModeChange(CefRefPtr<CefBrowser> browser,
+		bool fullscreen) override;
 
 	// CefLifeSpanHandler methods:
 	virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) override;
@@ -48,6 +55,14 @@ public:
 		CefRefPtr<CefFrame> frame,
 		int httpStatusCode) override;
 
+	virtual bool OnPreKeyEvent(CefRefPtr<CefBrowser> browser,
+		const CefKeyEvent& event,
+		CefEventHandle os_event,
+		bool* is_keyboard_shortcut) override;
+
+	virtual bool OnKeyEvent(CefRefPtr<CefBrowser> browser,
+		const CefKeyEvent& event,
+		CefEventHandle os_event);
 
 	// Request that all existing browser windows close.
 	void CloseAllBrowsers(bool force_close);

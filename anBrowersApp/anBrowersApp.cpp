@@ -44,11 +44,29 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// Provide CEF with command-line arguments.
 	CefMainArgs main_args(hInstance);
+	CefRefPtr<anCefApp> g_app = nullptr;
+
+	CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
+	command_line->InitFromString(::GetCommandLineW());
+
+	//通过启动参数判断进程类型，如果没有type则是Browser进程，type说明可以查看CefExecuteProcess函数说明
+	if (!command_line->HasSwitch("type"))
+	{
+		g_app = new anCefApp();
+	}
+
+	//如果有type并且value=renderer则为Render进程
+	const std::string& process_type = command_line->GetSwitchValue("type");//RenderProcess
+	if (process_type == "renderer")
+	{
+		g_app = new anCefApp();
+	}
+
 
 	// CEF applications have multiple sub-processes (render, plugin, GPU, etc)
 	// that share the same executable. This function checks the command-line and,
 	// if this is a sub-process, executes the appropriate logic.
-	int exit_code = CefExecuteProcess(main_args, NULL, sandbox_info);
+	int exit_code = CefExecuteProcess(main_args, g_app.get(), sandbox_info);
 	if (exit_code >= 0) {
 		// The sub-process has completed so return here.
 		return exit_code;
@@ -57,13 +75,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Specify CEF global settings here.
 	CefSettings settings;
 
-	// SimpleApp implements application-level callbacks for the browser process.
-  // It will create the first browser instance in OnContextInitialized() after
-  // CEF has initialized.
-	CefRefPtr<anCefApp> app(new anCefApp);
+	
 
 	// Initialize CEF.
-	CefInitialize(main_args, settings, app.get(), sandbox_info);
+	CefInitialize(main_args, settings, g_app.get(), sandbox_info);
 
 	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
 	// called.

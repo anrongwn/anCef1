@@ -131,8 +131,24 @@ void anCefClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
 {
 	int r = httpStatusCode;
 
-	frame->ExecuteJavaScript("alert('ExecuteJavaScript works!');",
-		frame->GetURL(), 0);
+	CefString url = frame->GetURL();
+	std::string strurl = url.ToString();
+	url.clear();
+
+	size_t pos = strurl.find_last_of('//');
+	strurl = strurl.substr(pos + 1);
+	if (0==strurl.compare("index.html")) {
+
+		//动态注入js 文件
+		const CefString js = "var v = document.createElement('script');\
+								v.src='file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/msgutils2.js';\
+								document.body.appendChild(v);";
+
+		frame->ExecuteJavaScript(js, frame->GetURL(), 0);
+	}
+
+
+	//frame->ExecuteJavaScript("mySet('9000');",frame->GetURL(), 0);
 }
 
 bool anCefClient::OnPreKeyEvent(CefRefPtr<CefBrowser> browser, const CefKeyEvent & event, CefEventHandle os_event, bool * is_keyboard_shortcut)

@@ -14,6 +14,7 @@ https://cmake.org/download/
 
 //½Ì³Ì
 https://github.com/fanfeilong/cefutil
+https://github.com/fanfeilong/cefutil/tree/master/doc
 
 //cef3 api doc
 https://magpcss.org/ceforum/apidocs3/

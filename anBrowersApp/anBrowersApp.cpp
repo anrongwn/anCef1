@@ -42,6 +42,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	void* sandbox_info = NULL;
 
+	//测试用
+	const char * pstr = "wang"
+		" jian"
+		" rong.";
+
+	//测试用
+	std::string app_code =
+		"var app;"
+		"if (!app)"
+		"    app = {};"
+		"(function() {"
+		"    app.ChangeTextInJS = function(text) {"
+		"        native function ChangeTextInJS();"
+		"        return ChangeTextInJS(text);"
+		"    };"
+		"})();;";
+
 	// Provide CEF with command-line arguments.
 	CefMainArgs main_args(hInstance);
 	CefRefPtr<anCefApp> g_app = nullptr;

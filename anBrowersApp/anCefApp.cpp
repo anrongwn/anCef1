@@ -143,4 +143,7 @@ void anCefApp::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
 	//js 关联 c++ 方法 
 	CefRefPtr< CefV8Value> f_withdrawl = CefV8Value::CreateFunction("withdraw1", jsHandler_);
 	window->SetValue("withdraw1", f_withdrawl, V8_PROPERTY_ATTRIBUTE_NONE);
+
+
+
 }

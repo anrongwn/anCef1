@@ -144,6 +144,8 @@ void anCefApp::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFram
 	CefRefPtr< CefV8Value> f_withdrawl = CefV8Value::CreateFunction("withdraw1", jsHandler_);
 	window->SetValue("withdraw1", f_withdrawl, V8_PROPERTY_ATTRIBUTE_NONE);
 
+	CefRefPtr< CefV8Value> f_mainpage = CefV8Value::CreateFunction("mainpage", jsHandler_);
+	window->SetValue("mainpage", f_mainpage, V8_PROPERTY_ATTRIBUTE_NONE);
 
 
 }

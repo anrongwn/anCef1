@@ -157,6 +157,14 @@ void anCefClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
 
 		frame->ExecuteJavaScript(js, frame->GetURL(), 0);
 	}
+	else if (0 == strurl.compare("page2.html")) {
+		//动态注入js 文件
+		const CefString js = "var v = document.createElement('script');\
+								v.src='file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/page2.js';\
+								document.body.appendChild(v);";
+
+		frame->ExecuteJavaScript(js, frame->GetURL(), 0);
+	}
 
 
 	//frame->ExecuteJavaScript("mySet('9000');",frame->GetURL(), 0);

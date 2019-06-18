@@ -15,6 +15,8 @@ https://cmake.org/download/
 //½Ì³Ì
 https://github.com/fanfeilong/cefutil
 https://github.com/fanfeilong/cefutil/tree/master/doc
+https://bitbucket.org/chromiumembedded/cef/wiki/JavaScriptIntegration.md#markdown-header-js-function
+
 
 //cef3 api doc
 https://magpcss.org/ceforum/apidocs3/

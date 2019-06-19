@@ -124,3 +124,9 @@ void anCefApp::OnContextInitialized()
 			NULL);
 	}
 }
+
+void anCefApp::OnRenderProcessThreadCreated(CefRefPtr<CefListValue> extra_info)
+{
+	extra_info->SetString(0, "id=1000");
+	extra_info->SetInt(1, 1000);
+}

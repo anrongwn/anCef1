@@ -22,6 +22,8 @@ public:
 		CefRefPtr<CefFrame> frame,
 		CefRefPtr<CefV8Context> context) override;
 
+	virtual void OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info) override;
+
 	IMPLEMENT_REFCOUNTING(anCefApp2);
 
 private:

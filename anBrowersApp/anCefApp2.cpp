@@ -1,6 +1,7 @@
 #include "anCefApp2.h"
 #include "anV8Handler.h"
-
+#include "spdlog/fmt/fmt.h"
+#include <string>
 
 anCefApp2::anCefApp2()
 {
@@ -32,5 +33,18 @@ void anCefApp2::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFra
 
 	CefRefPtr< CefV8Value> f_mainpage = CefV8Value::CreateFunction("mainpage", jsHandler_);
 	window->SetValue("mainpage", f_mainpage, V8_PROPERTY_ATTRIBUTE_NONE);
+}
+
+void anCefApp2::OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info)
+{
+	CefString id = extra_info->GetString(0);
+	int value = extra_info->GetInt(1);
+
+	//std::string log = fmt::format("anCefApp2::OnRenderThreadCreated(extra_info={}, {}), pid={:#08x}", id.ToString(), value, ::GetCurrentProcessId());
+	std::string log = fmt::format("anCefApp2::OnRenderThreadCreated(extra_info={}, {}), pid={}", id.ToString(), value, ::GetCurrentProcessId());
+	
+
+	OutputDebugStringA(log.c_str());
+
 }
 

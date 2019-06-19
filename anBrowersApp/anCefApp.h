@@ -16,9 +16,9 @@ public:
 	// CefBrowserProcessHandler methods:
 	virtual void OnContextInitialized() override;
 
+	virtual void OnRenderProcessThreadCreated(
+		CefRefPtr<CefListValue> extra_info) override;
 
-
-private:
 	// Include the default reference counting implementation.
 	IMPLEMENT_REFCOUNTING(anCefApp);
 

@@ -5,6 +5,7 @@
 #include "anBrowersApp.h"
 #include "include/cef_app.h"
 #include "anCefApp.h"
+#include "anCefApp2.h"
 
 
 #ifdef DEBUG
@@ -61,7 +62,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// Provide CEF with command-line arguments.
 	CefMainArgs main_args(hInstance);
-	CefRefPtr<anCefApp> g_app = nullptr;
+	CefRefPtr<CefApp> g_app = nullptr;
 
 	CefRefPtr<CefCommandLine> command_line = CefCommandLine::CreateCommandLine();
 	command_line->InitFromString(::GetCommandLineW());
@@ -76,7 +77,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	const std::string& process_type = command_line->GetSwitchValue("type");//RenderProcess
 	if (process_type == "renderer")
 	{
-		g_app = new anCefApp();
+		g_app = new anCefApp2();
 	}
 
 

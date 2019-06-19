@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="anBrowersApp.h" />
     <ClInclude Include="anCefApp.h" />
+    <ClInclude Include="anCefApp2.h" />
     <ClInclude Include="anCefClient.h" />
     <ClInclude Include="anV8Handler.h" />
     <ClInclude Include="Resource.h" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClCompile Include="anBrowersApp.cpp" />
     <ClCompile Include="anCefApp.cpp" />
+    <ClCompile Include="anCefApp2.cpp" />
     <ClCompile Include="anCefClient.cpp" />
     <ClCompile Include="anV8Handler.cpp" />
     <ClCompile Include="stdafx.cpp">

@@ -119,9 +119,15 @@ void anCefApp::OnContextInitialized()
 		
 #endif
 
-		// Create the first browser window.
+		//1¡¢ Create the first browser window.
 		CefBrowserHost::CreateBrowser(window_info, handler, url, browser_settings,
 			NULL);
+		/*
+		//2¡¢ Create the first browser window.
+		CefBrowserHost::CreateBrowser(window_info, handler, url, browser_settings,
+			NULL);
+		*/
+
 	}
 }
 

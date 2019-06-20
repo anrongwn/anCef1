@@ -77,6 +77,11 @@ public:
 	void CloseAllBrowsers(bool force_close);
 
 	bool IsClosing() const { return is_closing_; }
+
+
+	virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+		CefProcessId source_process,
+		CefRefPtr<CefProcessMessage> message) override;
 private:
 	// Platform-specific implementation.
 	void PlatformTitleChange(CefRefPtr<CefBrowser> browser,

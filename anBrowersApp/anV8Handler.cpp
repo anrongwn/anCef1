@@ -24,9 +24,14 @@ bool anV8Handler::Execute(const CefString & name, CefRefPtr<CefV8Value> object, 
 			
 			//
 			CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
-			context->GetBrowser()->GetMainFrame()->LoadURL("file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/page2.html");
+			//context->GetBrowser()->GetMainFrame()->LoadURL("file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/page2.html");
 
-			
+			//向browser 进程发送load_url 请求消息
+			CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create("page2");
+			CefRefPtr<CefListValue> args = msg->GetArgumentList();
+			args->SetString(0, "file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/page2.html");
+
+			context->GetBrowser()->SendProcessMessage(PID_BROWSER, msg);
 		}
 
 		return true;
@@ -41,9 +46,14 @@ bool anV8Handler::Execute(const CefString & name, CefRefPtr<CefV8Value> object, 
 
 			//
 			CefRefPtr<CefV8Context> context = CefV8Context::GetCurrentContext();
-			context->GetBrowser()->GetMainFrame()->LoadURL("file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/index.html");
+			//context->GetBrowser()->GetMainFrame()->LoadURL("file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/index.html");
+			
 
+			CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create("index");
+			CefRefPtr<CefListValue> args = msg->GetArgumentList();
+			args->SetString(0, "file:///D:/MyTest/2019_C++/anCef1/anBrowersApp/html/index.html");
 
+			context->GetBrowser()->SendProcessMessage(PID_BROWSER, msg);
 		}
 	}
 	return false;

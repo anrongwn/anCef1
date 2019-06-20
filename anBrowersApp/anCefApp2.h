@@ -24,6 +24,10 @@ public:
 
 	virtual void OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info) override;
 
+	virtual bool OnProcessMessageReceived(CefRefPtr<CefBrowser> browser,
+		CefProcessId source_process,
+		CefRefPtr<CefProcessMessage> message) override;
+
 	IMPLEMENT_REFCOUNTING(anCefApp2);
 
 private:

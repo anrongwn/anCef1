@@ -9,6 +9,7 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/wrapper/cef_helpers.h"
+#include "spdlog/fmt/fmt.h"
 
 
 namespace {
@@ -144,7 +145,7 @@ void anCefClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
 
 	CefString url = frame->GetURL();
 	std::string strurl = url.ToString();
-	url.clear();
+	
 
 	size_t pos = strurl.find_last_of('//');
 	strurl = strurl.substr(pos + 1);
@@ -166,7 +167,13 @@ void anCefClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> f
 		frame->ExecuteJavaScript(js, frame->GetURL(), 0);
 	}
 
+	//向render进程发送 load_end 消息
+	CefRefPtr<CefProcessMessage> msg = CefProcessMessage::Create(strurl);
+	CefRefPtr<CefListValue> args = msg->GetArgumentList();
+	args->SetString(0, url);
+	args->SetInt(1, 9999);
 
+	browser->SendProcessMessage(PID_RENDERER, msg);
 	//frame->ExecuteJavaScript("mySet('9000');",frame->GetURL(), 0);
 }
 
@@ -196,6 +203,25 @@ void anCefClient::CloseAllBrowsers(bool force_close)
 	for (; it != browser_list_.end(); ++it)
 		(*it)->GetHost()->CloseBrowser(force_close);
 
+}
+
+bool anCefClient::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+{
+	int bid = browser->GetIdentifier();
+	std::string log = fmt::format("anCefClient::OnProcessMessageReceived(browser id={}, CefProcessId={}), pid={}", bid, source_process, ::GetCurrentProcessId());
+	CefString mname = message->GetName();
+	CefString page = message->GetArgumentList()->GetString(0);
+
+	//load page
+	if (!page.empty()) {
+		browser->GetMainFrame()->LoadURL(page);
+	}
+
+	log+= fmt::format(",message(name={}, arg[0]={})", mname.ToString(), page.ToString());
+
+	OutputDebugStringA(log.c_str());
+
+	return true;
 }
 
 void anCefClient::PlatformTitleChange(CefRefPtr<CefBrowser> browser, const CefString & title)

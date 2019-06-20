@@ -48,3 +48,21 @@ void anCefApp2::OnRenderThreadCreated(CefRefPtr<CefListValue> extra_info)
 
 }
 
+bool anCefApp2::OnProcessMessageReceived(CefRefPtr<CefBrowser> browser, CefProcessId source_process, CefRefPtr<CefProcessMessage> message)
+{
+	//收到browser 进程发来的load_end消息
+	int bid = browser->GetIdentifier();
+	std::string log = fmt::format("anCefApp2::OnProcessMessageReceived(browser id={}, CefProcessId={}), pid={}", bid, source_process, ::GetCurrentProcessId());
+	CefString mname = message->GetName();
+	CefString page = message->GetArgumentList()->GetString(0);
+	int status = message->GetArgumentList()->GetInt(1);
+
+	
+
+	log += fmt::format(",message(name={}, arg[0]={}, arg[1]={})", mname.ToString(), page.ToString(), status);
+
+	OutputDebugStringA(log.c_str());
+
+	return true;
+}
+

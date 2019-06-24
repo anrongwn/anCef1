@@ -123,7 +123,7 @@ void anCefApp::OnContextInitialized()
 		CefBrowserHost::CreateBrowser(window_info, handler, url, browser_settings,
 			NULL);
 		/*
-		//2¡¢ Create the first browser window.
+		//2¡¢ Create the second browser window.
 		CefBrowserHost::CreateBrowser(window_info, handler, url, browser_settings,
 			NULL);
 		*/

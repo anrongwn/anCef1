@@ -78,6 +78,7 @@ void anCefClient::OnFullscreenModeChange(CefRefPtr<CefBrowser> browser, bool ful
 void anCefClient::OnAfterCreated(CefRefPtr<CefBrowser> browser)
 {
 	CEF_REQUIRE_UI_THREAD();
+
 	// Add to the list of existing browsers.
 	browser_list_.push_back(browser);
 }
@@ -137,6 +138,8 @@ void anCefClient::OnLoadError(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame>
 
 void anCefClient::OnLoadStart(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, TransitionType transition_type)
 {
+	CefWindowHandle handle = browser->GetHost()->GetWindowHandle();
+
 }
 
 void anCefClient::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)

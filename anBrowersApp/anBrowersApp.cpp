@@ -93,6 +93,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Specify CEF global settings here.
 	CefSettings settings;
 
+	std::nullptr_t my_null;
 	
 
 	// Initialize CEF.

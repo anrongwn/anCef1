@@ -35,3 +35,19 @@ https://blog.csdn.net/zhuhongshu/article/details/70159672
 
 //cef 开发实例
 https://www.jianshu.com/p/b57fd414bd1d
+
+
+//cef 本地web资源 打包 加密
+cef中最简单的打开页面方法是指定一个url或者本地路径。在使用cef开发客户端时，多数情况是写好了web页面，把web资源放到本地来使用。而js文件中很可能会暴露一些接口或者重要数据，为了保护这些数据需要把web资源加密。例如网易云音乐一类的客户端都是这样做的
+
+这个问题其实就是资源重定向的问题，把cef请求的资源重定向到自己解密出来的数据处。资源重定向需要处理cef里面的OnBeforeResourceLoad、GetResourceHandler接口
+
+翻了翻cef2623的demo，发现其实cef自身已经有了相关的功能。即CefResourceManager，创建一个CefResourceManager对象，调用AddArchiveProvider方法，可以添加一个加密zip文档作为资源来源。然后在OnBeforeResourceLoad、GetResourceHandler接口中调用CefResourceManager对象对应名称的接口，就可以直接使用加密zip中的资源了，很简单
+
+同时CefResourceManager提供了AddDirectoryProvider方法来把某个目录作为资源来源，也可以调用AddProvider来自定义一个资源来源。在调用这些方式时，需要提供一个特征字符串开头的URL。比如http://test/，如果cef正在打开的url是以http://test/开头，则会从对应的资源来源里，去取资源。比如用加密zip的方式，同时尝试打开http://test/demo.html，则会从zip里查找demo.html文件并打开
+
+CefResourceManager还提供了filter功能，可以用于过滤url，来判断那些url是需要重定向的，也可以设置重定向的位置。
+
+https://blog.csdn.net/zhuhongshu/article/details/81484159
+https://blog.csdn.net/csdnyonghu123/article/details/92808278
+https://bitbucket.org/chromiumembedded/cef-project/src/master/examples/resource_manager/?at=master

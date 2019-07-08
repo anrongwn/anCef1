@@ -51,3 +51,29 @@ CefResourceManager还提供了filter功能，可以用于过滤url，来判断那些url是需要重定向
 https://blog.csdn.net/zhuhongshu/article/details/81484159
 https://blog.csdn.net/csdnyonghu123/article/details/92808278
 https://bitbucket.org/chromiumembedded/cef-project/src/master/examples/resource_manager/?at=master
+
+
+
+//CEF JS与browser进程间的异步通信
+https://blog.csdn.net/foruok/article/details/50780333
+browser进程
+1）配置browser进程这一侧的Message Router (CefMessageRouterConfig)
+2）创建browser进程这一侧的CefMessageRouterBrowserSide的实例
+3）调用CefMessageRouterBrowserSide预定义方法
+4) 在browser进程里实现处理JS查询的handler
+5）给CefMessageRouterBrowserSide的实例添加handler
+renderer进程
+1）配置renderer进程这一侧的Message Router(CefMessageRouterConfig)
+2）创建CefMessageRouterRendererSide的实例
+
+Cef Generic Message Router的实现
+Generic Message Router内部实现有两个关键点：
+
+
+CefMessageRouterRendererSide在renderer进程内，在OnContextCreated中向JS导出了cefQuery和cefQueryCancel两个方法，具体见cef_message_router.cc
+renderer和browser进程间使用SendProcessMessage通信，在OnProcessMessageReceived中处理消息
+--------------------- 
+作者：foruok 
+来源：CSDN 
+原文：https://blog.csdn.net/foruok/article/details/50780333 
+版权声明：本文为博主原创文章，转载请附上博文链接！
